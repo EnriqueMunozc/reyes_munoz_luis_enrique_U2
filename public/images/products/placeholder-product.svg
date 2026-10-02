@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650" role="img" aria-labelledby="title desc">
+  <title id="title">Imagen provisional de producto</title>
+  <desc id="desc">Ilustracion local provisional con estilo maritimo para productos sin fotografia final.</desc>
+  <defs>
+    <linearGradient id="sea" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#071d33"/>
+      <stop offset="0.55" stop-color="#123d5a"/>
+      <stop offset="1" stop-color="#8f1d24"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8e6bc"/>
+      <stop offset="1" stop-color="#d8b36b"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="650" fill="url(#sea)"/>
+  <path d="M0 512c92-48 171-48 264 0s172 48 264 0 171-48 264 0c42 22 76 34 108 39v99H0z" fill="#0b2b43" opacity=".78"/>
+  <path d="M72 172c124-38 240-54 382-52 145 2 260 23 374 64v309c-118-40-232-60-374-62-145-2-263 15-382 53z" fill="url(#paper)" stroke="#6e4426" stroke-width="10"/>
+  <path d="M148 248c93-23 188-34 285-32 111 2 209 18 295 49" fill="none" stroke="#9e6c38" stroke-width="16" stroke-linecap="round" opacity=".55"/>
+  <path d="M150 340c115-28 231-35 349-21 78 9 153 26 226 51" fill="none" stroke="#9e6c38" stroke-width="16" stroke-linecap="round" opacity=".55"/>
+  <circle cx="692" cy="181" r="44" fill="#c73436" stroke="#7b1f22" stroke-width="8"/>
+  <path d="M450 166l42 120 126 4-100 76 34 122-102-70-104 70 36-122-102-76 128-4z" fill="#09243b" opacity=".92"/>
+  <text x="450" y="568" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#f8e6bc">Grand Line Store</text>
+</svg>
