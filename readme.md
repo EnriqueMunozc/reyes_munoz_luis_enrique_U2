@@ -36,7 +36,7 @@ Desarrollar una aplicacion web monolitica con Laravel, Blade, HTML, CSS, JavaScr
 
 ## Estado Actual
 
-Fase 2 en desarrollo sobre la rama `feature/base-aplicacion`, creada desde `chore/preparacion-proyecto` porque los cambios de fase 1 aun no estaban confirmados ni integrados.
+Fase 3 en desarrollo sobre la rama `feature/autenticacion-usuarios`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
 
 Implementado en esta fase:
 
@@ -50,11 +50,12 @@ Implementado en esta fase:
 - Detalle de producto.
 - Layout Blade compartido con navegacion y pie de pagina.
 - Recurso local provisional para imagenes de productos.
+- Registro de clientes, inicio y cierre de sesion con sesiones de Laravel.
+- Roles `cliente` y `administrador`, con autorizacion del lado del servidor para el area administrativa.
+- Comando interactivo para crear administradores.
 
 No implementado todavia:
 
-- Registro, inicio y cierre de sesion.
-- Roles de cliente y administrador.
 - CRUD administrativo.
 - Carrito.
 - Pedidos ficticios.
@@ -62,7 +63,7 @@ No implementado todavia:
 
 ## Entorno Verificado
 
-Verificado localmente el 2026-10-01:
+Verificado localmente el 2026-10-06:
 
 | Herramienta | Estado |
 | --- | --- |
@@ -74,6 +75,7 @@ Verificado localmente el 2026-10-01:
 | Laravel | 13.10.1 con `laravel/framework` 13.34.0 |
 | SQL Server PHP drivers | `sqlsrv` y `pdo_sqlsrv` cargan en `php -m` |
 | ODBC | `ODBC Driver 17 for SQL Server` y `ODBC Driver 18 for SQL Server` instalados |
+| SQL Server | Instancia predeterminada `MSSQLSERVER` en `localhost`, autenticacion integrada de Windows y base `redline` ONLINE |
 
 Se creo una copia de seguridad de `C:\php\php.ini` antes de habilitar los drivers:
 
@@ -81,9 +83,9 @@ Se creo una copia de seguridad de `C:\php\php.ini` antes de habilitar los driver
 C:\php\php.ini.bak-grand-line-store-20261001
 ```
 
-## Ejecucion Local Prevista
+## Ejecucion Local
 
-Antes de ejecutar migraciones confirma que la base `grand_line_store` o el nombre elegido sea exclusiva para este proyecto escolar.
+La configuracion comprobada usa la instancia local predeterminada de SQL Server y la base exclusiva `redline`. No uses otra base ni incluyas `.env` en Git.
 
 1. Instalar dependencias PHP:
 
@@ -98,38 +100,76 @@ Antes de ejecutar migraciones confirma que la base `grand_line_store` o el nombr
    npm run build
    ```
 
-3. Crear `.env` desde el ejemplo y completar valores reales sin subirlo a Git:
+3. Crear `.env` desde el ejemplo y generar una clave de aplicacion si aun no existe:
 
    ```bash
    copy .env.example .env
    php artisan key:generate
    ```
 
-4. Configurar SQL Server en `.env`:
+4. Configurar SQL Server con autenticacion integrada de Windows en `.env`:
 
    ```env
    DB_CONNECTION=sqlsrv
-   DB_HOST=TU_SERVIDOR_O_INSTANCIA
-   DB_PORT=1433
-   DB_DATABASE=grand_line_store
+   DB_HOST=localhost
+   DB_PORT=
+   DB_DATABASE=redline
    DB_USERNAME=
    DB_PASSWORD=
    DB_ENCRYPT=yes
-   DB_TRUST_SERVER_CERTIFICATE=false
+   DB_TRUST_SERVER_CERTIFICATE=true
    ```
 
-5. Ejecutar migraciones y seeders solo contra la base exclusiva del proyecto:
+   Deja `DB_USERNAME`, `DB_PASSWORD` y `DB_PORT` vacios para que el conector use autenticacion integrada y resuelva la instancia local. `DB_TRUST_SERVER_CERTIFICATE=true` se limita al entorno de desarrollo local.
+
+5. Confirmar la conexion activa antes de cambiar el esquema:
 
    ```bash
-   php artisan migrate
-   php artisan db:seed
+   php artisan tinker --execute="dump(DB::selectOne('SELECT DB_NAME() AS database_name')->database_name);"
    ```
 
-6. Levantar servidor local:
+   Debe mostrar `redline`.
+
+6. En una base exclusiva nueva, aplicar las migraciones pendientes de forma dirigida:
+
+   ```bash
+   php artisan migrate --path=database/migrations/0001_01_01_000000_create_users_table.php
+   php artisan migrate --path=database/migrations/0001_01_01_000001_create_cache_table.php
+   php artisan migrate --path=database/migrations/0001_01_01_000002_create_jobs_table.php
+   php artisan migrate --path=database/migrations/2026_10_01_000100_create_categories_table.php
+   php artisan migrate --path=database/migrations/2026_10_01_000200_create_products_table.php
+   php artisan migrate --path=database/migrations/2026_10_06_000300_add_role_to_users_table.php
+   ```
+
+   Comprueba el resultado sin modificar datos con:
+
+   ```bash
+   php artisan migrate:status
+   ```
+
+7. Cargar los datos de ejemplo repetibles:
+
+   ```bash
+   php artisan db:seed --class=Database\Seeders\StoreCatalogSeeder
+   ```
+
+8. Levantar servidor local:
 
    ```bash
    php artisan serve
    ```
+
+   Abre `http://127.0.0.1:8000`.
+
+## Cuentas de Fase 3
+
+Una vez aplicada la migracion de roles, visitantes pueden registrarse como clientes o iniciar sesion. Las cuentas cliente acceden al catalogo y las cuentas administradoras al area protegida. Para crear una cuenta administradora, ejecuta localmente:
+
+```bash
+php artisan store:create-administrator
+```
+
+El comando solicita nombre, correo y contrasena de forma interactiva; no incluye ni muestra contrasenas en el proyecto.
 
 Rutas disponibles en fase 2:
 
