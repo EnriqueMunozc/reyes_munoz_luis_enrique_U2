@@ -21,14 +21,38 @@
                         </span>
                     </a>
 
-                    <div class="nav-links">
-                        <a href="{{ route('home') }}" @class(['active' => request()->routeIs('home')])>Inicio</a>
-                        <a href="{{ route('catalog.index') }}" @class(['active' => request()->routeIs('catalog.*')])>Catalogo</a>
+                    <div class="nav-actions">
+                        <div class="nav-links">
+                            <a href="{{ route('home') }}" @class(['active' => request()->routeIs('home')])>Inicio</a>
+                            <a href="{{ route('catalog.index') }}" @class(['active' => request()->routeIs('catalog.*')])>Catalogo</a>
+                        </div>
+
+                        <div class="account-links">
+                            @guest
+                                <a href="{{ route('login') }}" @class(['active' => request()->routeIs('login')])>Iniciar sesion</a>
+                                <a class="account-register" href="{{ route('register') }}" @class(['active' => request()->routeIs('register')])>Registrarse</a>
+                            @else
+                                <span class="nav-user">{{ auth()->user()->name }}</span>
+
+                                @if (auth()->user()->isAdministrator())
+                                    <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.*')])>Administracion</a>
+                                @endif
+
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button class="nav-logout" type="submit">Cerrar sesion</button>
+                                </form>
+                            @endguest
+                        </div>
                     </div>
                 </nav>
             </header>
 
             <main>
+                @if (session('status'))
+                    <div class="flash-message" role="status">{{ session('status') }}</div>
+                @endif
+
                 @yield('content')
             </main>
 

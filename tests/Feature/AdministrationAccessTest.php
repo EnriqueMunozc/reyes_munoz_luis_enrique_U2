@@ -26,7 +26,10 @@ class AdministrationAccessTest extends TestCase
         $this->actingAs($this->userWithRole(UserRole::Administrator))
             ->get(route('admin.dashboard'))
             ->assertOk()
-            ->assertSee('Panel administrativo');
+            ->assertSee('Panel administrativo')
+            ->assertSee('Usuario de prueba')
+            ->assertSee('Administracion')
+            ->assertSee('Cerrar sesion');
     }
 
     private function userWithRole(UserRole $role): User

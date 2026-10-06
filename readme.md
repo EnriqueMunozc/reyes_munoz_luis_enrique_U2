@@ -36,7 +36,7 @@ Desarrollar una aplicacion web monolitica con Laravel, Blade, HTML, CSS, JavaScr
 
 ## Estado Actual
 
-Fase 2 validada localmente sobre la rama `fix/conexion-sqlserver` con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
+Fase 3 en desarrollo sobre la rama `feature/autenticacion-usuarios`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
 
 Implementado en esta fase:
 
@@ -50,11 +50,12 @@ Implementado en esta fase:
 - Detalle de producto.
 - Layout Blade compartido con navegacion y pie de pagina.
 - Recurso local provisional para imagenes de productos.
+- Registro de clientes, inicio y cierre de sesion con sesiones de Laravel.
+- Roles `cliente` y `administrador`, con autorizacion del lado del servidor para el area administrativa.
+- Comando interactivo para crear administradores.
 
 No implementado todavia:
 
-- Registro, inicio y cierre de sesion.
-- Roles de cliente y administrador.
 - CRUD administrativo.
 - Carrito.
 - Pedidos ficticios.
@@ -137,6 +138,7 @@ La configuracion comprobada usa la instancia local predeterminada de SQL Server 
    php artisan migrate --path=database/migrations/0001_01_01_000002_create_jobs_table.php
    php artisan migrate --path=database/migrations/2026_10_01_000100_create_categories_table.php
    php artisan migrate --path=database/migrations/2026_10_01_000200_create_products_table.php
+   php artisan migrate --path=database/migrations/2026_10_06_000300_add_role_to_users_table.php
    ```
 
    Comprueba el resultado sin modificar datos con:
@@ -158,6 +160,16 @@ La configuracion comprobada usa la instancia local predeterminada de SQL Server 
    ```
 
    Abre `http://127.0.0.1:8000`.
+
+## Cuentas de Fase 3
+
+Una vez aplicada la migracion de roles, visitantes pueden registrarse como clientes o iniciar sesion. Las cuentas cliente acceden al catalogo y las cuentas administradoras al area protegida. Para crear una cuenta administradora, ejecuta localmente:
+
+```bash
+php artisan store:create-administrator
+```
+
+El comando solicita nombre, correo y contrasena de forma interactiva; no incluye ni muestra contrasenas en el proyecto.
 
 Rutas disponibles en fase 2:
 

@@ -11,6 +11,7 @@ class LoginFormTest extends TestCase
         $this->get(route('login'))
             ->assertOk()
             ->assertSee('Iniciar sesion')
+            ->assertSee('Registrarse')
             ->assertSee('name="password"', false);
     }
 }
