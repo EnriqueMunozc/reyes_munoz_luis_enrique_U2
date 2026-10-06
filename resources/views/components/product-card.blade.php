@@ -1,6 +1,6 @@
 <article class="product-card">
     <a class="product-media" href="{{ route('catalog.show', $product) }}" aria-label="Ver {{ $product->name }}">
-        <img src="{{ asset($product->image_path ?: 'images/products/placeholder-product.svg') }}" alt="Imagen provisional de {{ $product->name }}">
+        <img src="{{ $product->imageUrl() }}" alt="Imagen de {{ $product->name }}">
     </a>
 
     <div class="product-body">

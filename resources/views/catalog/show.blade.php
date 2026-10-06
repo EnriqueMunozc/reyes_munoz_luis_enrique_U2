@@ -5,7 +5,7 @@
 @section('content')
     <section class="product-detail">
         <div class="detail-media">
-            <img src="{{ asset($product->image_path ?: 'images/products/placeholder-product.svg') }}" alt="Imagen provisional de {{ $product->name }}">
+            <img src="{{ $product->imageUrl() }}" alt="Imagen de {{ $product->name }}">
         </div>
 
         <div class="detail-copy">

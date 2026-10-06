@@ -36,7 +36,7 @@ Desarrollar una aplicacion web monolitica con Laravel, Blade, HTML, CSS, JavaScr
 
 ## Estado Actual
 
-Fase 3 en desarrollo sobre la rama `feature/autenticacion-usuarios`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
+Fase 4 implementada sobre la rama `feature/crud-administrativo`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
 
 Implementado en esta fase:
 
@@ -53,10 +53,12 @@ Implementado en esta fase:
 - Registro de clientes, inicio y cierre de sesion con sesiones de Laravel.
 - Roles `cliente` y `administrador`, con autorizacion del lado del servidor para el area administrativa.
 - Comando interactivo para crear administradores.
+- Panel administrativo con conteos del catalogo.
+- CRUD protegido de categorias y productos, con paginacion, busqueda y filtro.
+- Imagenes de productos JPEG, PNG o WebP de hasta 2 MB, guardadas en el disco publico de Laravel.
 
 No implementado todavia:
 
-- CRUD administrativo.
 - Carrito.
 - Pedidos ficticios.
 - Publicacion en cloud host.
@@ -153,7 +155,13 @@ La configuracion comprobada usa la instancia local predeterminada de SQL Server 
    php artisan db:seed --class=Database\Seeders\StoreCatalogSeeder
    ```
 
-8. Levantar servidor local:
+8. Crear el enlace publico para las imagenes de productos si todavia no existe:
+
+   ```bash
+   php artisan storage:link
+   ```
+
+9. Levantar servidor local:
 
    ```bash
    php artisan serve
@@ -161,7 +169,7 @@ La configuracion comprobada usa la instancia local predeterminada de SQL Server 
 
    Abre `http://127.0.0.1:8000`.
 
-## Cuentas de Fase 3
+## Cuentas y administracion
 
 Una vez aplicada la migracion de roles, visitantes pueden registrarse como clientes o iniciar sesion. Las cuentas cliente acceden al catalogo y las cuentas administradoras al area protegida. Para crear una cuenta administradora, ejecuta localmente:
 
@@ -171,8 +179,11 @@ php artisan store:create-administrator
 
 El comando solicita nombre, correo y contrasena de forma interactiva; no incluye ni muestra contrasenas en el proyecto.
 
-Rutas disponibles en fase 2:
+Las rutas bajo `/administracion` requieren una cuenta administradora. Desde el panel se pueden gestionar categorias y productos; los productos inactivos no aparecen en el catalogo publico.
+
+Rutas principales:
 
 - `/` inicio con productos destacados.
 - `/catalogo` catalogo con busqueda, filtro y paginacion.
 - `/catalogo/{slug}` detalle de producto.
+- `/administracion` panel protegido para administradores.

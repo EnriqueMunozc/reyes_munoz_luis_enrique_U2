@@ -1,8 +1,15 @@
 <?php
 
 return [
+    'between' => [
+        'numeric' => 'El campo :attribute debe estar entre :min y :max.',
+    ],
     'confirmed' => 'La confirmacion de :attribute no coincide.',
+    'decimal' => 'El campo :attribute debe tener como maximo :decimal decimales.',
     'email' => 'El campo :attribute debe ser una direccion de correo valida.',
+    'exists' => 'El valor seleccionado para :attribute no es valido.',
+    'image' => 'El archivo de :attribute debe ser una imagen valida.',
+    'integer' => 'El campo :attribute debe ser un numero entero.',
     'max' => [
         'string' => 'El campo :attribute no debe superar :max caracteres.',
     ],
@@ -16,8 +23,13 @@ return [
 
     'attributes' => [
         'email' => 'correo electronico',
+        'category_id' => 'categoria',
+        'description' => 'descripcion',
+        'image' => 'imagen',
         'name' => 'nombre',
         'password' => 'contrasena',
+        'price' => 'precio',
         'role' => 'rol',
+        'stock' => 'existencias',
     ],
 ];
