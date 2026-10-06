@@ -77,10 +77,10 @@ class AuthenticatedSessionController extends Controller
 
         $path = $parts['path'] ?? '/';
 
-        if (! str_starts_with($path, '/') || in_array($path, [route('login', false), route('register', false)], true)) {
+        if (! str_starts_with($path, '/') || in_array($path, [route('login', [], false), route('register', [], false)], true)) {
             return false;
         }
 
-        return $path !== route('admin.dashboard', false) || $request->user()->isAdministrator();
+        return $path !== route('admin.dashboard', [], false) || $request->user()->isAdministrator();
     }
 }
