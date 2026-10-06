@@ -453,6 +453,51 @@ img {
     line-height: 1.6;
 }
 
+.auth-form {
+    display: grid;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.auth-form label {
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.auth-form input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--white);
+    padding: 10px 12px;
+}
+
+.auth-form .button {
+    margin-top: 12px;
+}
+
+.form-alert,
+.field-error {
+    color: var(--red-dark);
+}
+
+.form-alert {
+    margin-top: 20px;
+    border-left: 4px solid var(--red);
+    background: rgba(179, 38, 45, 0.1);
+    padding: 10px 12px;
+}
+
+.form-alert p,
+.field-error {
+    margin: 0;
+}
+
+.field-error {
+    font-size: 0.9rem;
+}
+
 .detail-copy h1 {
     color: var(--navy);
     font-size: clamp(2rem, 5vw, 3.5rem);
