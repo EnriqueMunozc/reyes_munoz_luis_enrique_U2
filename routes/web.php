@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CatalogController;
@@ -25,6 +27,12 @@ Route::get('/registrarse', [RegisteredUserController::class, 'create'])
 Route::post('/registrarse', [RegisteredUserController::class, 'store'])
     ->middleware(['guest', 'throttle:register'])
     ->name('register.store');
-Route::get('/administracion', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'admin'])
-    ->name('admin.dashboard');
+Route::prefix('administracion')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('categorias', CategoryController::class)
+        ->parameters(['categorias' => 'category'])
+        ->names('categories');
+    Route::resource('productos', ProductController::class)
+        ->parameters(['productos' => 'product'])
+        ->names('products');
+});

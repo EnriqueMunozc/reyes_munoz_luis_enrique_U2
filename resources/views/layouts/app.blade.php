@@ -59,7 +59,7 @@
             <footer class="site-footer">
                 <div>
                     <strong>Grand Line Store</strong>
-                    <p>Tienda ficticia escolar. Los pedidos, pagos y administracion se implementaran en fases posteriores.</p>
+                    <p>Tienda ficticia escolar. Los pedidos y pagos se implementaran en fases posteriores.</p>
                 </div>
                 <p>Laravel, Blade y SQL Server.</p>
             </footer>
