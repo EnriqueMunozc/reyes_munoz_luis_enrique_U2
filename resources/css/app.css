@@ -423,6 +423,36 @@ img {
     padding: 30px;
 }
 
+.auth-shell {
+    display: grid;
+    width: min(1120px, calc(100% - 32px));
+    min-height: 52vh;
+    margin: 0 auto;
+    place-items: center;
+}
+
+.auth-panel,
+.admin-panel {
+    width: min(100%, 580px);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(255, 253, 248, 0.94);
+    box-shadow: var(--shadow);
+    padding: 30px;
+}
+
+.auth-panel h1,
+.admin-panel h2 {
+    margin: 0;
+    color: var(--navy);
+}
+
+.auth-panel p:not(.eyebrow),
+.admin-panel p {
+    color: #526273;
+    line-height: 1.6;
+}
+
 .detail-copy h1 {
     color: var(--navy);
     font-size: clamp(2rem, 5vw, 3.5rem);
