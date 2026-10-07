@@ -9,17 +9,10 @@
             <h1>Articulos de anime para una tripulacion lista para zarpar</h1>
             <p>
                 Grand Line Store reune figuras, ropa, mangas y accesorios ficticios inspirados en aventuras maritimas.
-                Esta fase muestra productos destacados desde la base de datos.
             </p>
             <div class="hero-actions">
                 <a class="button primary" href="{{ route('catalog.index') }}">Ver catalogo</a>
             </div>
-        </div>
-
-        <div class="hero-panel" aria-label="Resumen de catalogo">
-            <span>Fase 2</span>
-            <strong>{{ $featuredProducts->count() }}</strong>
-            <p>productos destacados cargados desde SQL Server cuando se ejecuten migraciones y seeders.</p>
         </div>
     </section>
 

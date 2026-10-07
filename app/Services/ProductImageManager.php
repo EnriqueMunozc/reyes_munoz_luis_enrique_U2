@@ -30,6 +30,10 @@ class ProductImageManager
             return Storage::disk('public')->url($path);
         }
 
+        if ($this->isCatalogImagePath($path)) {
+            return asset($path);
+        }
+
         return asset(self::PLACEHOLDER_PATH);
     }
 
@@ -55,6 +59,14 @@ class ProductImageManager
     {
         return is_string($path)
             && str_starts_with($path, 'products/')
+            && ! str_contains($path, '..')
+            && ! str_contains($path, '\\');
+    }
+
+    public function isCatalogImagePath(?string $path): bool
+    {
+        return is_string($path)
+            && str_starts_with($path, 'images/products/')
             && ! str_contains($path, '..')
             && ! str_contains($path, '\\');
     }
