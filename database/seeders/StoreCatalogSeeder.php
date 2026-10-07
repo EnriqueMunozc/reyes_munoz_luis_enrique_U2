@@ -51,6 +51,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Figura de coleccion con pose de aventura, base tipo cubierta y acabado mate.',
                 'price' => 899.00,
                 'stock' => 18,
+                'image_path' => 'images/products/luffy-figura.jpg',
                 'is_featured' => true,
             ],
             [
@@ -60,6 +61,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Pieza decorativa con tres espadas, capa verde y base de puerto.',
                 'price' => 949.00,
                 'stock' => 12,
+                'image_path' => 'images/products/figura-zoro.jpg',
                 'is_featured' => true,
             ],
             [
@@ -69,6 +71,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Figura colorida con baston climatico y detalles de mapa marino.',
                 'price' => 829.00,
                 'stock' => 15,
+                'image_path' => 'images/products/navegante.jpg',
                 'is_featured' => false,
             ],
             [
@@ -78,6 +81,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Playera de algodon con estampado frontal inspirado en banderas de tripulacion.',
                 'price' => 329.00,
                 'stock' => 40,
+                'image_path' => 'images/products/camisa.jpg',
                 'is_featured' => true,
             ],
             [
@@ -87,6 +91,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Sudadera con capucha, bolsillo frontal y bordado de brujula en manga.',
                 'price' => 699.00,
                 'stock' => 22,
+                'image_path' => 'images/products/sudaderaazul.jpg',
                 'is_featured' => true,
             ],
             [
@@ -96,6 +101,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Gorra ajustable con parche bordado y visera curva.',
                 'price' => 249.00,
                 'stock' => 35,
+                'image_path' => 'images/products/gorra.jpg',
                 'is_featured' => false,
             ],
             [
@@ -105,6 +111,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Tomo ficticio de coleccion con portada alternativa en tonos pergamino.',
                 'price' => 159.00,
                 'stock' => 30,
+                'image_path' => 'images/products/marazul-manga.jpg',
                 'is_featured' => false,
             ],
             [
@@ -114,6 +121,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Edicion ficticia con separador incluido y detalles metalizados.',
                 'price' => 179.00,
                 'stock' => 27,
+                'image_path' => 'images/products/mangacrucero.jpg',
                 'is_featured' => true,
             ],
             [
@@ -123,6 +131,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Volumen con portada de accion, ideal para coleccion escolar de muestra.',
                 'price' => 169.00,
                 'stock' => 24,
+                'image_path' => 'images/products/archipielago.jpg',
                 'is_featured' => false,
             ],
             [
@@ -132,6 +141,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Llavero metalico con acabado antiguo y aro reforzado.',
                 'price' => 119.00,
                 'stock' => 60,
+                'image_path' => 'images/products/logpose-llavero.jpg',
                 'is_featured' => true,
             ],
             [
@@ -141,6 +151,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Taza ceramica con mapa ilustrado y capacidad de 325 ml.',
                 'price' => 189.00,
                 'stock' => 44,
+                'image_path' => 'images/products/taza.jpg',
                 'is_featured' => false,
             ],
             [
@@ -150,6 +161,7 @@ class StoreCatalogSeeder extends Seeder
                 'description' => 'Poster tamano mediano con acabado satinado y colores de aventura maritima.',
                 'price' => 139.00,
                 'stock' => 50,
+                'image_path' => 'images/products/poster al atardecer.jpg',
                 'is_featured' => false,
             ],
         ];
@@ -163,7 +175,7 @@ class StoreCatalogSeeder extends Seeder
                     'description' => $product['description'],
                     'price' => $product['price'],
                     'stock' => $product['stock'],
-                    'image_path' => 'images/products/placeholder-product.svg',
+                    'image_path' => $product['image_path'],
                     'is_active' => true,
                     'is_featured' => $product['is_featured'],
                 ],
