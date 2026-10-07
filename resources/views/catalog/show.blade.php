@@ -28,6 +28,17 @@
                     <dd>{{ $product->is_active ? 'Activo' : 'No disponible' }}</dd>
                 </div>
             </dl>
+
+            @if ($product->stock > 0)
+                <form class="add-to-cart-form" action="{{ route('cart.store', $product) }}" method="POST">
+                    @csrf
+                    <label for="quantity">Cantidad</label>
+                    <input id="quantity" name="quantity" type="number" min="1" max="{{ $product->stock }}" value="1" required>
+                    <button class="button primary" type="submit">Agregar al carrito</button>
+                </form>
+            @else
+                <p class="availability-note">Este producto esta agotado por ahora.</p>
+            @endif
         </div>
     </section>
 

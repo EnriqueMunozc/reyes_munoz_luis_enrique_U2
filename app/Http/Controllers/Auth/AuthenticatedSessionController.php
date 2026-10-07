@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Services\CartService;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -36,6 +37,7 @@ class AuthenticatedSessionController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
+        app(CartService::class)->clear();
         Auth::logout();
 
         $request->session()->invalidate();
