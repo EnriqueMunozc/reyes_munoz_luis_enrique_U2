@@ -36,7 +36,7 @@ Desarrollar una aplicacion web monolitica con Laravel, Blade, HTML, CSS, JavaScr
 
 ## Estado Actual
 
-Fase 4 implementada sobre la rama `feature/crud-administrativo`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
+Fase 5 implementada sobre la rama `feature/carrito-pedidos`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
 
 Implementado en esta fase:
 
@@ -56,11 +56,11 @@ Implementado en esta fase:
 - Panel administrativo con conteos del catalogo.
 - CRUD protegido de categorias y productos, con paginacion, busqueda y filtro.
 - Imagenes de productos JPEG, PNG o WebP de hasta 2 MB, guardadas en el disco publico de Laravel.
+- Carrito de sesion disponible para visitantes, con cantidades y existencias validadas desde SQL Server.
+- Pedidos ficticios protegidos por autenticacion, con historial, detalles inmutables y descuento transaccional de existencias.
 
 No implementado todavia:
 
-- Carrito.
-- Pedidos ficticios.
 - Publicacion en cloud host.
 
 ## Entorno Verificado
@@ -141,6 +141,8 @@ La configuracion comprobada usa la instancia local predeterminada de SQL Server 
    php artisan migrate --path=database/migrations/2026_10_01_000100_create_categories_table.php
    php artisan migrate --path=database/migrations/2026_10_01_000200_create_products_table.php
    php artisan migrate --path=database/migrations/2026_10_06_000300_add_role_to_users_table.php
+   php artisan migrate --path=database/migrations/2026_10_06_000400_create_orders_table.php
+   php artisan migrate --path=database/migrations/2026_10_06_000500_create_order_items_table.php
    ```
 
    Comprueba el resultado sin modificar datos con:
@@ -181,9 +183,13 @@ El comando solicita nombre, correo y contrasena de forma interactiva; no incluye
 
 Las rutas bajo `/administracion` requieren una cuenta administradora. Desde el panel se pueden gestionar categorias y productos; los productos inactivos no aparecen en el catalogo publico.
 
+El carrito puede usarse como visitante. Para confirmar un pedido ficticio se requiere iniciar sesion; el sistema vuelve a validar precios y existencias, no procesa pagos y conserva el historial aunque el producto cambie o se elimine despues.
+
 Rutas principales:
 
 - `/` inicio con productos destacados.
 - `/catalogo` catalogo con busqueda, filtro y paginacion.
 - `/catalogo/{slug}` detalle de producto.
 - `/administracion` panel protegido para administradores.
+- `/carrito` carrito de sesion.
+- `/mis-pedidos` historial protegido del usuario autenticado.

@@ -11,6 +11,14 @@
 
     <div class="product-meta">
         <strong>${{ number_format((float) $product->price, 2) }} MXN</strong>
-        <span>{{ $product->stock }} disponibles</span>
+        @if ($product->stock > 0)
+            <form action="{{ route('cart.store', $product) }}" method="POST">
+                @csrf
+                <input type="hidden" name="quantity" value="1">
+                <button class="button compact-button" type="submit">Agregar</button>
+            </form>
+        @else
+            <span>Agotado</span>
+        @endif
     </div>
 </article>

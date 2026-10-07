@@ -25,6 +25,7 @@
                         <div class="nav-links">
                             <a href="{{ route('home') }}" @class(['active' => request()->routeIs('home')])>Inicio</a>
                             <a href="{{ route('catalog.index') }}" @class(['active' => request()->routeIs('catalog.*')])>Catalogo</a>
+                            <a href="{{ route('cart.index') }}" @class(['active' => request()->routeIs('cart.*')])>Carrito <span class="cart-count">{{ app(\App\Services\CartService::class)->count() }}</span></a>
                         </div>
 
                         <div class="account-links">
@@ -33,6 +34,7 @@
                                 <a class="account-register" href="{{ route('register') }}" @class(['active' => request()->routeIs('register')])>Registrarse</a>
                             @else
                                 <span class="nav-user">{{ auth()->user()->name }}</span>
+                                <a href="{{ route('orders.index') }}" @class(['active' => request()->routeIs('orders.*')])>Mis pedidos</a>
 
                                 @if (auth()->user()->isAdministrator())
                                     <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.*')])>Administracion</a>
@@ -53,13 +55,23 @@
                     <div class="flash-message" role="status">{{ session('status') }}</div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="validation-summary" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @yield('content')
             </main>
 
             <footer class="site-footer">
                 <div>
                     <strong>Grand Line Store</strong>
-                    <p>Tienda ficticia escolar. Los pedidos y pagos se implementaran en fases posteriores.</p>
+                    <p>Tienda ficticia escolar. Los pedidos son simulaciones sin pagos ni cargos reales.</p>
                 </div>
                 <p>Laravel, Blade y SQL Server.</p>
             </footer>
