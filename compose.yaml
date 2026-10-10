@@ -1,0 +1,87 @@
+name: grand-line-store
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-CU21-ubuntu-22.04
+    platform: linux/amd64
+    env_file:
+      - .env.docker
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_MEMORY_LIMIT_MB: "2048"
+    volumes:
+      - grand_line_sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/1433'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    mem_limit: 3g
+    cpus: "2.0"
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      target: app
+    env_file:
+      - .env.docker
+    environment:
+      APP_URL: "http://localhost:${APP_PORT:-8080}"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - grand_line_storage:/var/www/html/storage/app/public
+    healthcheck:
+      test: ["CMD-SHELL", "php -r 'exit(extension_loaded(\"sqlsrv\") && extension_loaded(\"pdo_sqlsrv\") ? 0 : 1);'"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    mem_limit: 512m
+    cpus: "1.0"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      target: web
+    depends_on:
+      app:
+        condition: service_started
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - grand_line_storage:/var/www/html/storage/app/public:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1/up || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    mem_limit: 128m
+    cpus: "0.5"
+    restart: unless-stopped
+
+  init:
+    build:
+      context: .
+      target: app
+    profiles: ["init"]
+    env_file:
+      - .env.docker
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - grand_line_storage:/var/www/html/storage/app/public
+    command: ["sh", "docker/initialize.sh"]
+    restart: "no"
+
+volumes:
+  grand_line_sqlserver_data:
+    name: grand_line_sqlserver_data
+  grand_line_storage:
+    name: grand_line_storage
