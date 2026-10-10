@@ -1,195 +1,74 @@
 # Grand Line Store
 
-Grand Line Store es una tienda web ficticia de articulos de anime inspirados en One Piece. El proyecto se desarrollara como actividad escolar y usara el control de versiones como parte central de la evidencia.
+Grand Line Store es una tienda web ficticia inspirada en One Piece. Permite explorar productos y realizar pedidos de demostracion sin pagos reales.
 
-## Objetivo
+## Funciones
 
-Desarrollar una aplicacion web monolitica con Laravel, Blade, HTML, CSS, JavaScript y Microsoft SQL Server. La aplicacion debera permitir consultar productos, administrar catalogos, registrar usuarios, manejar carrito y generar pedidos ficticios sin pagos reales.
-
-## Alcance Funcional Previsto
-
-- Inicio con presentacion de la tienda y productos destacados.
-- Catalogo con imagenes, descripcion, precios en MXN, busqueda y filtros por categoria.
-- Registro, inicio y cierre de sesion.
+- Catalogo con productos destacados, busqueda, filtro por categoria y paginacion.
+- Registro de clientes, inicio y cierre de sesion.
 - Roles de cliente y administrador.
-- CRUD de productos y categorias para el administrador.
-- Carrito con cantidades y totales.
-- Pedidos ficticios, sin pasarela de pago ni cobros reales.
-- Historial de pedidos del cliente.
-- Diseno adaptable a computadora y celular.
-- Datos de ejemplo de figuras, ropa, mangas y accesorios de One Piece.
+- Panel administrativo con CRUD de categorias y productos.
+- Carga de imagenes para productos desde el panel administrativo.
+- Carrito de compras con validacion de existencias.
+- Pedidos ficticios e historial de pedidos para usuarios autenticados.
 
-## Tecnologias Acordadas
+## Tecnologias
 
-- Metodologia agil: Kanban.
-- Columnas Kanban: Pendiente, En desarrollo, En revision y Terminado.
-- Lenguaje principal: PHP.
-- Framework: Laravel, en una version estable y mantenida compatible con PHP 8.3.
-- Interfaz: Blade, HTML, CSS y JavaScript.
-- Arquitectura: monolitica.
-- Patron: Modelo, Vista y Controlador.
-- Base de datos: Microsoft SQL Server.
-- Administracion de base de datos: SQL Server Management Studio.
-- Versionamiento: Git y GitHub.
-- Flujo de trabajo: GitHub Flow.
-- Desarrollo inicial: laptop Windows.
+- PHP 8.3 y Laravel.
+- Blade, HTML, CSS y JavaScript.
+- Arquitectura monolitica con MVC.
+- Microsoft SQL Server.
+- Docker Compose, Nginx y PHP-FPM.
 
-## Estado Actual
+## Requisitos
 
-Fase 5 implementada sobre la rama `feature/carrito-pedidos`, con SQL Server en la instancia local predeterminada y la base exclusiva `redline`.
+- Docker Desktop con el motor Linux iniciado.
+- PowerShell.
+- Al menos 4 GB de memoria disponibles para Docker.
 
-Implementado en esta fase:
+## Primera Instalacion
 
-- Base Laravel estable compatible con PHP 8.3.
-- Configuracion preparada para SQL Server mediante variables de entorno.
-- Modelos `Category` y `Product` con relacion de categoria a productos.
-- Migraciones para categorias y productos.
-- Seeders repetibles con categorias y 12 articulos ficticios de One Piece.
-- Inicio con productos destacados.
-- Catalogo con busqueda, filtro por categoria y paginacion.
-- Detalle de producto.
-- Layout Blade compartido con navegacion y pie de pagina.
-- Recurso local provisional para imagenes de productos.
-- Registro de clientes, inicio y cierre de sesion con sesiones de Laravel.
-- Roles `cliente` y `administrador`, con autorizacion del lado del servidor para el area administrativa.
-- Comando interactivo para crear administradores.
-- Panel administrativo con conteos del catalogo.
-- CRUD protegido de categorias y productos, con paginacion, busqueda y filtro.
-- Imagenes de productos JPEG, PNG o WebP de hasta 2 MB, guardadas en el disco publico de Laravel.
-- Carrito de sesion disponible para visitantes, con cantidades y existencias validadas desde SQL Server.
-- Pedidos ficticios protegidos por autenticacion, con historial, detalles inmutables y descuento transaccional de existencias.
+Desde la raiz del proyecto, ejecuta:
 
-No implementado todavia:
-
-- Publicacion en cloud host.
-
-## Entorno Verificado
-
-Verificado localmente el 2026-10-06:
-
-| Herramienta | Estado |
-| --- | --- |
-| PHP | 8.3.33 NTS x64 en `C:\php\php.exe` |
-| Composer | 2.8.8 |
-| Node.js | v22.15.0 |
-| npm | 10.9.2 |
-| Git | 2.49.0.windows.1 |
-| Laravel | 13.10.1 con `laravel/framework` 13.34.0 |
-| SQL Server PHP drivers | `sqlsrv` y `pdo_sqlsrv` cargan en `php -m` |
-| ODBC | `ODBC Driver 17 for SQL Server` y `ODBC Driver 18 for SQL Server` instalados |
-| SQL Server | Instancia predeterminada `MSSQLSERVER` en `localhost`, autenticacion integrada de Windows y base `redline` ONLINE |
-
-Se creo una copia de seguridad de `C:\php\php.ini` antes de habilitar los drivers:
-
-```text
-C:\php\php.ini.bak-grand-line-store-20261001
+```powershell
+.\scripts\prepare-docker.ps1
+docker compose --env-file .env.docker build
+docker compose --env-file .env.docker up -d sqlserver
+docker compose --env-file .env.docker --profile init build init
+docker compose --env-file .env.docker --profile init run --rm init
+docker compose --env-file .env.docker up -d app web
+docker compose --env-file .env.docker ps
 ```
 
-## Ejecucion Local
+El script genera `.env.docker` con la configuracion local necesaria. Este archivo contiene secretos y no debe subirse a Git.
 
-La configuracion comprobada usa la instancia local predeterminada de SQL Server y la base exclusiva `redline`. No uses otra base ni incluyas `.env` en Git.
+## Inicios Posteriores
 
-1. Instalar dependencias PHP:
+Para iniciar la tienda despues de la primera instalacion:
 
-   ```bash
-   composer install
-   ```
-
-2. Instalar y compilar recursos:
-
-   ```bash
-   npm install
-   npm run build
-   ```
-
-3. Crear `.env` desde el ejemplo y generar una clave de aplicacion si aun no existe:
-
-   ```bash
-   copy .env.example .env
-   php artisan key:generate
-   ```
-
-4. Configurar SQL Server con autenticacion integrada de Windows en `.env`:
-
-   ```env
-   DB_CONNECTION=sqlsrv
-   DB_HOST=localhost
-   DB_PORT=
-   DB_DATABASE=redline
-   DB_USERNAME=
-   DB_PASSWORD=
-   DB_ENCRYPT=yes
-   DB_TRUST_SERVER_CERTIFICATE=true
-   ```
-
-   Deja `DB_USERNAME`, `DB_PASSWORD` y `DB_PORT` vacios para que el conector use autenticacion integrada y resuelva la instancia local. `DB_TRUST_SERVER_CERTIFICATE=true` se limita al entorno de desarrollo local.
-
-5. Confirmar la conexion activa antes de cambiar el esquema:
-
-   ```bash
-   php artisan tinker --execute="dump(DB::selectOne('SELECT DB_NAME() AS database_name')->database_name);"
-   ```
-
-   Debe mostrar `redline`.
-
-6. En una base exclusiva nueva, aplicar las migraciones pendientes de forma dirigida:
-
-   ```bash
-   php artisan migrate --path=database/migrations/0001_01_01_000000_create_users_table.php
-   php artisan migrate --path=database/migrations/0001_01_01_000001_create_cache_table.php
-   php artisan migrate --path=database/migrations/0001_01_01_000002_create_jobs_table.php
-   php artisan migrate --path=database/migrations/2026_10_01_000100_create_categories_table.php
-   php artisan migrate --path=database/migrations/2026_10_01_000200_create_products_table.php
-   php artisan migrate --path=database/migrations/2026_10_06_000300_add_role_to_users_table.php
-   php artisan migrate --path=database/migrations/2026_10_06_000400_create_orders_table.php
-   php artisan migrate --path=database/migrations/2026_10_06_000500_create_order_items_table.php
-   ```
-
-   Comprueba el resultado sin modificar datos con:
-
-   ```bash
-   php artisan migrate:status
-   ```
-
-7. Cargar los datos de ejemplo repetibles:
-
-   ```bash
-   php artisan db:seed --class=Database\Seeders\StoreCatalogSeeder
-   ```
-
-8. Crear el enlace publico para las imagenes de productos si todavia no existe:
-
-   ```bash
-   php artisan storage:link
-   ```
-
-9. Levantar servidor local:
-
-   ```bash
-   php artisan serve
-   ```
-
-   Abre `http://127.0.0.1:8000`.
-
-## Cuentas y administracion
-
-Una vez aplicada la migracion de roles, visitantes pueden registrarse como clientes o iniciar sesion. Las cuentas cliente acceden al catalogo y las cuentas administradoras al area protegida. Para crear una cuenta administradora, ejecuta localmente:
-
-```bash
-php artisan store:create-administrator
+```powershell
+docker compose --env-file .env.docker up -d
+docker compose --env-file .env.docker ps
 ```
 
-El comando solicita nombre, correo y contrasena de forma interactiva; no incluye ni muestra contrasenas en el proyecto.
+## Direccion Local
 
-Las rutas bajo `/administracion` requieren una cuenta administradora. Desde el panel se pueden gestionar categorias y productos; los productos inactivos no aparecen en el catalogo publico.
+Abre la tienda en [http://localhost:8080](http://localhost:8080).
 
-El carrito puede usarse como visitante. Para confirmar un pedido ficticio se requiere iniciar sesion; el sistema vuelve a validar precios y existencias, no procesa pagos y conserva el historial aunque el producto cambie o se elimine despues.
+## Detener La Tienda
 
-Rutas principales:
+Para detener los contenedores sin eliminar los datos:
 
-- `/` inicio con productos destacados.
-- `/catalogo` catalogo con busqueda, filtro y paginacion.
-- `/catalogo/{slug}` detalle de producto.
-- `/administracion` panel protegido para administradores.
-- `/carrito` carrito de sesion.
-- `/mis-pedidos` historial protegido del usuario autenticado.
+```powershell
+docker compose --env-file .env.docker stop
+```
+
+## Crear Un Administrador
+
+Con los contenedores iniciados, ejecuta:
+
+```powershell
+docker compose --env-file .env.docker exec app php artisan store:create-administrator
+```
+
+El comando solicita nombre, correo y contrasena de forma interactiva.
